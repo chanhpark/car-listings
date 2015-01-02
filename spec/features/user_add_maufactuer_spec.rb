@@ -13,19 +13,32 @@ Acceptance Criteria:
     scenario 'create a valid car manufacturer' do
 
       visit new_manufacturer_path
-
       fill_in "Name", with: "Mazda"
       fill_in "Country", with: "Japan"
 
       click_on "Create Manufacturer"
 
       expect(page). to have_content("success")
-      expect(page). to have_content("Toyota")
+      expect(page). to have_content("Mazda")
       expect(page). to have_content("Japan")
 
     end
 
     scenario 'user inputs invalid fields' do
+      visit new_manufacturer_path
+
+      fill_in "Name", with: "Toyota"
+
+      click_on "Create Manufacturer"
+
+      expect(page). to have_content("can't be blank")
+
+    end
+
+    scenario 'duplicate manufacturer' do
+
+      FactoryGirl.create(:manufacturer, name: "Toyota")
+
       visit new_manufacturer_path
 
       fill_in "Name", with: "Toyota"
