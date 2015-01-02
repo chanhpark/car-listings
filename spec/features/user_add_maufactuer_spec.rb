@@ -5,14 +5,15 @@ As a car salesperson
 I want to record a car manufacturer
 So that I can keep track of the types of cars found in the lot
 Acceptance Criteria:
-- [ ] I must specify a manufacturer name and country.
-- [ ] If I do not specify the required information, I am presented with errors.
-- [ ] If I specify the required information, the manufacturer is recorded and I am redirected to the index of manufacturers
+- [X] I must specify a manufacturer name and country.
+- [X] If I do not specify the required information, I am presented with errors.
+- [X] If I specify the required information, the manufacturer is recorded and I am redirected to the index of manufacturers
   ) do
 
     scenario 'create a valid car manufacturer' do
 
       visit new_manufacturer_path
+      
       fill_in "Name", with: "Mazda"
       fill_in "Country", with: "Japan"
 
@@ -34,19 +35,4 @@ Acceptance Criteria:
       expect(page). to have_content("can't be blank")
 
     end
-
-    scenario 'duplicate manufacturer' do
-
-      FactoryGirl.create(:manufacturer, name: "Toyota")
-
-      visit new_manufacturer_path
-
-      fill_in "Name", with: "Toyota"
-
-      click_on "Create Manufacturer"
-
-      expect(page). to have_content("can't be blank")
-
-    end
-
-  end
+end
