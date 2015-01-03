@@ -1,10 +1,11 @@
 class ManufacturersController < ApplicationController
   def index
-    @manufacturers = Manufacturer.limit(100)
+    @manufacturers = Manufacturer.all
   end
 
   def show
     @manufacturer = Manufacturer.find(params[:id])
+    @cars = Car.find(params[:id])
   end
 
   def new
@@ -24,7 +25,8 @@ class ManufacturersController < ApplicationController
   private
 
   def manufacturer_params
-    params.require(:manufacturer).permit(:name, :country)
+    params.require(:manufacturer).permit(
+    :name,
+    :country )
   end
-
 end

@@ -13,27 +13,27 @@ Acceptance Criteria:
 -[ ] If I do not specify all of the required information in the required formats, the car is not recorded and I am presented with errors.
 -[ ] Upon successfully creating a car, I am redirected back to the index of cars.
   ) do
-    let(:manufacturer) { FactoryGirl.create(:manufacturer, name: 'Mazda') }
 
     scenario 'create a valid car' do
+      @manufacturer = FactoryGirl.create(:manufacturer)
+      car = FactoryGirl.build(:car)
 
       visit new_car_path
-
-      select(manufacturer.name, :from => 'car[manufacturer_id]')
-      fill_in "Color", with: "Lightning Red"
-      fill_in "Year", with: "1986"
-      fill_in "Mileage", with: "19213"
+      select(@manufacturer.name, from: 'Manufacturer')
+      fill_in "Color", with: car.color
+      select(car.year, from: 'Year')
+      fill_in "Mileage", with: car.mileage
 
       click_on "Create Car"
 
       expect(page). to have_content("success")
-      expect(page). to have_content("Lightning")
-      expect(page). to have_content("1986")
-      expect(page). to have_content("19213")
+      expect(page). to have_content("Blue")
+      expect(page). to have_content("2002")
+      expect(page). to have_content("17000")
 
     end
 
-    scenario 'user did not fill in required fields' do
+    scenario 'user inputs invalid fields' do
 
       visit new_car_path
 
@@ -43,14 +43,14 @@ Acceptance Criteria:
 
     end
 
-    scenario 'user enters a very old car' do
-
+    scenario 'user enters a car thats too old' do
+      @manufacturer = FactoryGirl.create(:manufacturer)
 
       visit new_car_path
 
-      select(manufacturer.name, :from => 'car[manufacturer_id]')
+      select(@manufacturer.name, from: 'Manufacturer')
       fill_in "Color", with: "Lightning Red"
-      fill_in "Year", with: "1886"
+      select("Year", match: "1886")
       fill_in "Mileage", with: "19213"
 
       click_on "Create Car"
@@ -60,13 +60,14 @@ Acceptance Criteria:
     end
 
     scenario 'user enters invalid mileage' do
+      @manufacturer = FactoryGirl.create(:manufacturer)
 
       visit new_car_path
 
-      select(manufacturer.name, :from => 'car[manufacturer_id]')
+      select(@manufacturer.name, from: 'Manufacturer')
       fill_in "Color", with: "Lightning Red"
-      fill_in "Year", with: "1886"
-      fill_in "Mileage", with: "-19213"
+      select("Year", with: "1886")
+      fill_in "Mileage", match: "-13"
 
       click_on "Create Car"
 

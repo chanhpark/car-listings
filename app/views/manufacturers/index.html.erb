@@ -6,8 +6,10 @@
   <li>
     <strong>Name:</strong> <%= manufacturer.name %>,
     <strong>Country:</strong> <%= manufacturer.country %>
-    <strong><%= link_to "(See Manufacturer)", manufacturer_path(manufacturer) %></strong>
   </li>
 
   <% end %>
 </ol>
+
+<%= link_to "Add New Car", new_car_path %> |
+<%= link_to "Add New Manufacturer", new_manufacturer_path %>

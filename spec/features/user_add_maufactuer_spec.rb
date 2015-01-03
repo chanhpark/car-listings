@@ -11,24 +11,34 @@ Acceptance Criteria:
   ) do
 
     scenario 'create a valid car manufacturer' do
-
+      @manufacturer = FactoryGirl.create(:manufacturer)
       visit new_manufacturer_path
-      
-      fill_in "Name", with: "Mazda"
-      fill_in "Country", with: "Japan"
+      save_and_open_page
+      fill_in "Name", with: @manufacturer.name
+      select(@manufacturer.country)
 
       click_on "Create Manufacturer"
 
-      expect(page). to have_content("success")
-      expect(page). to have_content("Mazda")
-      expect(page). to have_content("Japan")
-
+      expect(page). to have_content("Kia")
+      expect(page). to have_content("Korea")
     end
 
     scenario 'user inputs invalid fields' do
       visit new_manufacturer_path
 
-      fill_in "Name", with: "Toyota"
+      fill_in "Name", with: "Kia"
+
+      click_on "Create Manufacturer"
+
+      expect(page). to have_content("can't be blank")
+    end
+    scenario 'user enters an existing manufacturer name' do
+
+      FactoryGirl.create(:manufacturer, name: "Kia")
+
+      visit new_manufacturer_path
+
+      fill_in "Name", with: "Kia"
 
       click_on "Create Manufacturer"
 
