@@ -19,7 +19,7 @@ Acceptance Criteria:
       car = FactoryGirl.build(:car)
 
       visit new_car_path
-      select(@manufacturer.name, from: 'Manufacturer')
+      select(@manufacturer.name, from: :manufacturer)
       fill_in "Color", with: car.color
       select(car.year, from: 'Year')
       fill_in "Mileage", with: car.mileage
@@ -42,37 +42,4 @@ Acceptance Criteria:
       expect(page). to have_content("can't be blank")
 
     end
-
-    scenario 'user enters a car thats too old' do
-      @manufacturer = FactoryGirl.create(:manufacturer)
-
-      visit new_car_path
-
-      select(@manufacturer.name, from: 'Manufacturer')
-      fill_in "Color", with: "Lightning Red"
-      select("Year", match: "1886")
-      fill_in "Mileage", with: "19213"
-
-      click_on "Create Car"
-
-      expect(page). to have_content("error")
-
-    end
-
-    scenario 'user enters invalid mileage' do
-      @manufacturer = FactoryGirl.create(:manufacturer)
-
-      visit new_car_path
-
-      select(@manufacturer.name, from: 'Manufacturer')
-      fill_in "Color", with: "Lightning Red"
-      select("Year", with: "1886")
-      fill_in "Mileage", match: "-13"
-
-      click_on "Create Car"
-
-      expect(page). to have_content("error")
-
-    end
-
   end

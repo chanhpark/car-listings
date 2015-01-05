@@ -19,8 +19,8 @@ Acceptance Criteria:
 
       click_on "Create Manufacturer"
 
-      expect(page). to have_content("Kia")
-      expect(page). to have_content("Korea")
+      expect(page). to have_content("Ford")
+      expect(page). to have_content("United States of America")
     end
 
     scenario 'user inputs invalid fields' do
@@ -34,11 +34,11 @@ Acceptance Criteria:
     end
     scenario 'user enters an existing manufacturer name' do
 
-      FactoryGirl.create(:manufacturer, name: "Kia")
+      FactoryGirl.create(:manufacturer, name: "Ford")
 
       visit new_manufacturer_path
 
-      fill_in "Name", with: "Kia"
+      fill_in "Name", with: "Ford"
 
       click_on "Create Manufacturer"
 

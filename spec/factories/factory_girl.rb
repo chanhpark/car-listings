@@ -2,8 +2,8 @@ require "factory_girl"
 
 FactoryGirl.define do
   factory :manufacturer do
-    name "Kia"
-    country "Korea (South)"
+    name "Dodge"
+    country "United States of America"
   end
 end
 
